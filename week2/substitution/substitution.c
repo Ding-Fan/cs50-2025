@@ -23,7 +23,7 @@ int main(int argc, string argv[])
         return 1;
     }
 
-    printf("Key validation passed.\n");
+    // printf("Key validation passed.\n");
 
     // get the plain text
     string plainText = get_string("plaintext: ");
@@ -48,7 +48,7 @@ bool keyValidation(string key)
         return false;
     }
 
-    string alphabet = "abcdefghijklmnopqrstuvwxyz";
+    char alphabet[] = "abcdefghijklmnopqrstuvwxyz";  // Modifiable array
 
     for(int i = 0; i < keyLength; i++)
     {
