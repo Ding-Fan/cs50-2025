@@ -21,6 +21,8 @@ https://cs50.readthedocs.io/
 cs50.h
 https://github.com/cs50/libcs50
 
+- [c online compiler](https://www.jdoodle.com/c-online-compiler)
+
 ## notes
 
 Although `int main() {}` works, `int main(void) {}` is better because it explicitly **indicates** that the function does not accept parameters.
@@ -32,3 +34,5 @@ _noptr-declarator_ `(` _parameter-list_ `)` _attr-spec-seq_ (optional)
 ```
 
 **_parameter-list_** — either the single keyword `void` or a comma-separated list of _parameters_, which may end with an ellipsis parameter.
+
+- in local vscode, set CPATH to include the path to the cs50 library, e.g. `export CPATH = "${pkgs.libcs50}/include:$CPATH";`
