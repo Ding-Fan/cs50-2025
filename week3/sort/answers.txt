@@ -1,0 +1,39 @@
+sort1 uses: bubble sort
+
+How do you know?:
+
+0.165s on random5000.txt
+took the longest time
+might be selection sort
+
+0.073s on reversed5000.txt
+0.032s on sorted5000.txt
+0.642s on sorted50000.txt
+5.094s on reversed50000.txt
+
+slowest on reversed50000.txt, bubble sort?
+
+sort2 uses: merge sort
+
+How do you know?:
+
+0.056s on random5000.txt
+0.034s on reversed5000.txt
+0.045s on sorted5000.txt
+0.676s on sorted50000.txt
+0.669s on reversed50000.txt
+
+fast at average, maybe merge sort
+
+sort3 uses: selection sort
+
+How do you know?:
+
+0.054s on random5000.txt
+0.071s on reversed5000.txt
+
+feels like bubble sort, because reversed is slower than random
+
+0.052s on sorted5000.txt
+2.326s on sorted50000.txt
+2.535s on reversed50000.txt
