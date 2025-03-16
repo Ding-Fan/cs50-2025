@@ -44,9 +44,12 @@ int main(int argc, char *argv[])
     // After the header, the WAV file contains a sequence of samples, each a single 2-byte (16-bit) integer representing the audio signal at a particular point in time.
 
     int16_t sample;
-    fread(&sample, sizeof(int16_t), 1, input);
-    sample = sample * factor;
-    fwrite(&sample, sizeof(int16_t), 1, output);
+    while(fread(&sample, sizeof(int16_t), 1, input))
+    {
+        sample = sample * factor;
+        fwrite(&sample, sizeof(int16_t), 1, output);
+    }
+
 
     // Close files
     fclose(input);
