@@ -1,6 +1,6 @@
 #include "helpers.h"
 #include <math.h>
-#include <stdlib.h>
+#define MIN(a, b) ((a) > (b) ? (b) : (a))
 
 // Convert image to grayscale
 void grayscale(int height, int width, RGBTRIPLE image[height][width])
@@ -66,7 +66,7 @@ void reflect(int height, int width, RGBTRIPLE image[height][width])
 // Blur image
 void blur(int height, int width, RGBTRIPLE image[height][width])
 {
-    // box blur,” which works by
+    // box blur, which works by
     // taking each pixel and, for each color value,
     // giving it a new value by
     // averaging the color values of neighboring pixels.
@@ -123,5 +123,69 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
 // Detect edges
 void edges(int height, int width, RGBTRIPLE image[height][width])
 {
+    int gx[3][3] = {
+        {-1, 0, 1},
+        {-2, 0, 2},
+        {-1, 0, 1}
+    };
+
+    int gy[3][3] = {
+        {-1, -2, -1},
+        { 0,  0,  0},
+        { 1,  2,  1}
+    };
+
+    // create a new image to store the new pixel values
+    RGBTRIPLE new_image[height][width];
+
+    // iterate over the rows(height)
+    for (int y = 0; y < height; y++)
+    {
+        // iterate over the columns(width)
+        for (int x = 0; x < width; x++)
+        {
+            int box_result_red_x = 0;
+            int box_result_green_x = 0;
+            int box_result_blue_x = 0;
+            int box_result_red_y = 0;
+            int box_result_green_y = 0;
+            int box_result_blue_y = 0;
+
+            for(int i = -1; i < 2; i++)
+            {
+                for(int j = -1; j < 2; j++)
+                {
+                    // trying to access a pixel past the edge of the image should be treated as a solid black pixel (values of 0 for each of red, green, and blue)
+                    if (y + i < 0 || y + i >= height || x + j < 0 || x + j >= width)
+                    {
+                        continue;
+                    }
+
+                    box_result_red_x += image[y + i][x + j].rgbtRed * gx[i + 1][j + 1];
+                    box_result_green_x += image[y + i][x + j].rgbtGreen * gx[i + 1][j + 1];
+                    box_result_blue_x += image[y + i][x + j].rgbtBlue * gx[i + 1][j + 1];
+
+                    box_result_red_y += image[y + i][x + j].rgbtRed * gy[i + 1][j + 1];
+                    box_result_green_y += image[y + i][x + j].rgbtGreen * gy[i + 1][j + 1];
+                    box_result_blue_y += image[y + i][x + j].rgbtBlue * gy[i + 1][j + 1];
+                }
+            }
+
+            // square root of Gx^2 + Gy^2
+            new_image[y][x].rgbtRed = MIN(round(sqrt(pow(box_result_red_x, 2) + pow(box_result_red_y, 2))), 255);
+            new_image[y][x].rgbtGreen = MIN(round(sqrt(pow(box_result_green_x, 2) + pow(box_result_green_y, 2))), 255);
+            new_image[y][x].rgbtBlue = MIN(round(sqrt(pow(box_result_blue_x, 2) + pow(box_result_blue_y, 2))), 255);
+        }
+    }
+
+    // alter the original image
+    for (int y = 0; y < height; y++)
+    {
+        for (int x = 0; x < width; x++)
+        {
+            image[y][x] = new_image[y][x];
+        }
+    }
+
     return;
 }
